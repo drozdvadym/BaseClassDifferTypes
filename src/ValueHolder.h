@@ -54,7 +54,7 @@ struct ValueHolder
 //
 
 #define VH_FCN_BIND_VOID(Prototype, FcnToCall, ValHolder, ...)\
-	Prototype{                                                \
+    Prototype{                                                \
     VH_SWITCH_BEGIN(ValHolder)                                \
     VH_CASE(int, id_int, FcnToCall, __VA_ARGS__);             \
     VH_CASE(float, id_float, FcnToCall, __VA_ARGS__);         \
