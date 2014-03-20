@@ -61,7 +61,7 @@ struct ValueHolder
 template <typename T>
 void LoadDifferTypes(T * val, std::istream& is)
 {
-	is >> *val;
+    is >> *val;
 }
 
 template <typename T>
