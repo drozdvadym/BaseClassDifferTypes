@@ -1,3 +1,20 @@
+//
+// -*- Mode: c++; tab-width: 4; -*-
+// -*- ex: ts=4 -*-
+//
+
+//
+// main.cpp (Vadym Drozd)
+// BaseClassDifferTypes/main.cpp
+//
+
+//
+// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND,
+// EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED
+// WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
+//
+
+
 ////////////////////////////////////////////////////////////////////////////////
 // include section
 

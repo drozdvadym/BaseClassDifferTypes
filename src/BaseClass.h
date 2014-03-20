@@ -1,32 +1,57 @@
-#pragma once
+//
+// -*- Mode: c++; tab-width: 4; -*-
+// -*- ex: ts=4 -*-
+//
 
-#include "ValueHolder.h"
-#include <list>
+//
+// BaseClass.h (Vadym Drozd)
+// BaseClassDifferTypes/BaseClass.h
+//
 
-#include <iostream>
+//
+// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND,
+// EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED
+// WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
+//
 
-typedef std::list<ValueHolder> ValHolderList;
+#ifndef __BC_BASE_CLASS_H__
+# define __BC_BASE_CLASS_H__
 
-class BaseClass {
+# pragma once
+
+////////////////////////////////////////////////////////////////////////////////
+// include section
+//
+
+# include "ValueHolder.h"
+# include <vector>
+
+# include <iostream>
+
+////////////////////////////////////////////////////////////////////////////////
+// declaration section
+//
+
+typedef std::vector<ValueHolder> ValHolderList;
+
+class BaseClass
+{
 public:
+    BaseClass() : members(0), is_inited(false) {}
+    BaseClass(const BaseClass & bc) : members(0), is_inited(false) {}
 
-	BaseClass() : members(0), is_inited(false) {}
-	BaseClass(const BaseClass & bc) : members(0), is_inited(false) {}
+    BaseClass & operator=(BaseClass & that);
+    virtual ~BaseClass() {}
 
-	BaseClass & operator=(BaseClass & that);
+    virtual void RegisterAllMBS(ValHolderList& aList) = 0;
+    void RegisterOneMBR(ValHolderList& aList, ValueHolder mbr);
 
-	void Load(const char *filename);
-	void Save(const char *filename);
-
-	virtual void RegisterAllMBS(ValHolderList& aList) = 0;
-
-	void RegisterOneMBR(ValHolderList& aList, ValueHolder mbr);
-
-	virtual ~BaseClass() {}
+    void Load(const char *filename);
+    void Save(const char *filename);
 
 private:
-	ValHolderList members;
-	bool      is_inited;
+    ValHolderList members;
+    bool          is_inited;
 
 	void init_members();
 };
@@ -34,22 +59,26 @@ private:
 
 ////////////////////////////////////////////////////////////////////////////////
 // some macro for simpler creating derived class of BasseClass
+//
 
 # define __myc_namembs(a) ((sizeof a) / (sizeof a[0]))
 
-#define SAVE(ThisType) \
+# define SAVE(ThisType) \
 	void RegisterAllMBS(ValHolderList& aList) {
 
-#define SAVE_PARENT(ThisType, ParentType) \
+# define SAVE_PARENT(ThisType, ParentType) \
 	SAVE(ThisType) ParentType::RegisterAllMBS(aList);
 
-#define REG_MEMBER(ThisType, x) RegisterOneMBR(aList, ValueHolder(&x, ThisType))
+# define REG_MEMBER(ThisType, x) \
+    RegisterOneMBR(aList, ValueHolder(&x, ThisType, #x))
 
-#define REG_MEMBER_ARR(ThisType, x)                  \
-for (size_t _i = 0; _i < __myc_namembs(x); _i++) \
-	REG_MEMBER(ThisType, x[_i])
+# define REG_MEMBER_ARR(ThisType, x)              \
+    for (size_t i = 0; i < __myc_namembs(x); i++) \
+        REG_MEMBER(ThisType, x[i])                \
 
-#define ENDSAVE }
+# define ENDSAVE }
+
+#endif
 
 //
 //

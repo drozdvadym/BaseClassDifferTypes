@@ -1,34 +1,45 @@
+//
+// -*- Mode: c++; tab-width: 4; -*-
+// -*- ex: ts=4 -*-
+//
+
+//
+// BaseClass.cpp (Vadym Drozd)
+// BaseClassDifferTypes/BaseClass.cpp
+//
+
+//
+// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND,
+// EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED
+// WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
+//
+
+////////////////////////////////////////////////////////////////////////////////
+// include section
+//
+
 #include "BaseClass.h"
 
 
-//
+////////////////////////////////////////////////////////////////////////////////
 // Local function feclaration
 //
-
-//
-// define and declare prototypes for functions that will be generated 
-// @{
 
 void VH_Load(ValueHolder& valh, std::istream& ios);
 void VH_Save(ValueHolder& valh, std::ostream& ios);
 
-#define VH_LOAD_PROTO void VH_Load(ValueHolder& valh, std::istream& ios)
-#define VH_SAVE_PROTO void VH_Save(ValueHolder& valh, std::ostream& ios)
-
-// @}
-
-//
+////////////////////////////////////////////////////////////////////////////////
 // BaseClass member function section
 //
 
 BaseClass & BaseClass::operator = (BaseClass & that)
 {
-	if (this != &that) {
-		is_inited = false;
-		members.clear();
-	}
+    if (this != &that) {
+        is_inited = false;
+        members.clear();
+    }
 
-	return *this;
+    return *this;
 }
 
 void BaseClass::RegisterOneMBR(ValHolderList& aList, ValueHolder mbr)
@@ -50,37 +61,37 @@ void BaseClass::init_members()
 void BaseClass::Load(const char *fileName) {
     init_members();
 
-	std::cout << "Load:\n";
-    for (auto &mbr : members)
-        VH_Load(mbr, std::cin);
+    std::cout << "Load:\n";
+    for (size_t i = 0; i < members.size(); i++) {
+        std::cout << members[i].valname << ": ";
+        VH_Load(members[i], std::cin);
+    }
 }
 void BaseClass::Save(const char *fileName) {
     init_members();
 
-	std::cout << "Save:\n";
-    for (auto &mbr : members)
-        VH_Save(mbr, std::cout);
+    std::cout << "Save:\n";
+    for (size_t i = 0; i < members.size(); i++) {
+        std::cout << members[i].valname << ": ";
+        VH_Save(members[i], std::cout);
+        std::cout << std::endl;
+    }
 }
 
-//
+////////////////////////////////////////////////////////////////////////////////
 // Local function definitions
 //
 
-template <typename T>
-void LoadDifferTypes(T * val, std::istream& is)
+void VH_Load(ValueHolder& valh, std::istream& ios)
 {
-    is >> *val;
+    VH_SWITCH_FCN_CALL_BLOCK(LoadDifferTypes, valh, ios);
 }
 
-template <typename T>
-void SaveDifferTypes(T * val, std::ostream& os)
+void VH_Save(ValueHolder& valh, std::ostream& ios)
 {
-    os << *val << std::endl;
+    VH_SWITCH_FCN_CALL_BLOCK(SaveDifferTypes, valh, ios);
 }
 
 //
-// Generate functions
 //
-
-VH_FCN_BIND_VOID(VH_LOAD_PROTO, LoadDifferTypes, valh, ios);
-VH_FCN_BIND_VOID(VH_SAVE_PROTO, SaveDifferTypes, valh, ios);
+//
