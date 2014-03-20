@@ -25,8 +25,8 @@
 // Local function feclaration
 //
 
-void VH_Load(ValueHolder& valh, std::istream& ios);
-void VH_Save(ValueHolder& valh, std::ostream& ios);
+void VH_Load(ValueHolder& valh, std::istream& is);
+void VH_Save(ValueHolder& valh, std::ostream& os);
 
 ////////////////////////////////////////////////////////////////////////////////
 // BaseClass member function section
@@ -82,14 +82,14 @@ void BaseClass::Save(const char *fileName) {
 // Local function definitions
 //
 
-void VH_Load(ValueHolder& valh, std::istream& ios)
+void VH_Load(ValueHolder& valh, std::istream& is)
 {
-    VH_SWITCH_FCN_CALL_BLOCK(LoadDifferTypes, valh, ios);
+    VH_SWITCH_FCN_CALL_BLOCK(LoadDifferTypes, valh, is);
 }
 
-void VH_Save(ValueHolder& valh, std::ostream& ios)
+void VH_Save(ValueHolder& valh, std::ostream& os)
 {
-    VH_SWITCH_FCN_CALL_BLOCK(SaveDifferTypes, valh, ios);
+    VH_SWITCH_FCN_CALL_BLOCK(SaveDifferTypes, valh, os);
 }
 
 //
