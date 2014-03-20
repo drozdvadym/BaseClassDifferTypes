@@ -53,7 +53,7 @@ private:
     ValHolderList members;
     bool          is_inited;
 
-	void init_members();
+    void init_members();
 };
 
 
@@ -64,10 +64,10 @@ private:
 # define __myc_namembs(a) ((sizeof a) / (sizeof a[0]))
 
 # define SAVE(ThisType) \
-	void RegisterAllMBS(ValHolderList& aList) {
+    void RegisterAllMBS(ValHolderList& aList) {
 
 # define SAVE_PARENT(ThisType, ParentType) \
-	SAVE(ThisType) ParentType::RegisterAllMBS(aList);
+    SAVE(ThisType) ParentType::RegisterAllMBS(aList);
 
 # define REG_MEMBER(ThisType, x) \
     RegisterOneMBR(aList, ValueHolder(&x, ThisType, #x))
